@@ -1,3 +1,4 @@
+// Require all the things
 var express = require('express')
 var path = require('path')
 var favicon = require('serve-favicon')
@@ -5,14 +6,15 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 
+// Register Routes
 var index = require('./routes/index')
-var users = require('./routes/users')
-var scrape = require('./routes/scrape')
 var auth = require('./routes/auth')
 
+// Init app
 var app = express()
+// livereload(app, config={})
 
-// view engine setup
+// View engine setup (pug)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
@@ -24,9 +26,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Register Routes
 app.use('/', index)
-app.use('/users', users)
-app.use('/scrape', scrape)
 app.use('/auth', auth)
 
 // catch 404 and forward to error handler

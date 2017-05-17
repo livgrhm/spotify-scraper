@@ -8,14 +8,24 @@
 ```json
 {
     "client_id": "YOUR_KEY_HERE",
-    "client_secret": "YOUR_SECRET_HERE"
+    "client_secret": "YOUR_SECRET_HERE",
+    "url": "http://localhost:3000"
 }
 ```
-4. Setup environment
+4. Setup environment {development/production/test}
+```
+$ export NODE_ENV="development"
+```
+(defaults to development)
 
 ## Running the app
 
-1. Run `node app.js`
-
+1. Run `DEBUG=spotify-scraper:* npm start`
+2. Then load `http://localhost:3000/` in your browser to access the app.
 
 ## Endpoints
+
+
+## Links
+
+1. [Express Generator](https://expressjs.com/en/starter/generator.html)

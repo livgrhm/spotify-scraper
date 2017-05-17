@@ -1,15 +1,18 @@
+// Requires
 var express = require('express')
 var querystring = require('querystring')
-var request = require('request') // "Request" library
+var request = require('request')
 
-var router = express.Router()
-
+// Config Vars
 var config = require('../config/config')
 
+// Express Router
+var router = express.Router()
+
+// Global Variables
 var client_id = config.client_id // Your client id
 var client_secret = config.client_secret // Your secret
-var redirect_uri = 'http://localhost:3000/auth/callback' // Your redirect uri
-
+var redirect_uri = config.url + '/auth/callback' // Redirect URI
 var stateKey = 'spotify_auth_state'
 
 /**
@@ -27,13 +30,13 @@ var generateRandomString = function(length) {
     return text;
 };
 
-/* GET  */
+/* GET /auth (authorise the user for Spotify) */
 router.get('/', function(req, res, next) {
     var state = generateRandomString(16)
     res.cookie(stateKey, state)
 
-    // your application requests authorization
-    var scope = 'user-read-private user-read-email'
+    // Request Spotify authorisation
+    var scope = 'playlist-read-private playlist-read-collaborative user-top-read'
     res.redirect('https://accounts.spotify.com/authorize?' + querystring.stringify({
         response_type: 'code',
         client_id: client_id,
@@ -43,10 +46,10 @@ router.get('/', function(req, res, next) {
     }))
 })
 
+/* GET /auth/callback (what to do with Spotify response) */
 router.get('/callback', function(req, res) {
     // your application requests refresh and access tokens
     // after checking the state parameter
-
     var code = req.query.code || null
     var state = req.query.state || null
     var storedState = req.cookies
@@ -95,10 +98,9 @@ router.get('/callback', function(req, res) {
             }
         })
     }
-    console.log('U ARE AUTHED LOL')
-    console.log('YOU ARE THE BESTEST DEVELOPER EVA! MY GIRL :P')
 })
 
+/* GET /auth/refresh_token */
 router.get('/refresh_token', function(req, res) {
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token

@@ -1,3 +1,6 @@
 module.exports = {
-    value: 'Some value'
+    client_id: "",
+    client_secret: "",
+    url: "",
+    title: "Spotify Scraper"
 };
